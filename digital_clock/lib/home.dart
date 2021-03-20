@@ -13,18 +13,17 @@ class _HomeState extends State<Home> {
   String time = "00:00:00";
   @override
   void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     Timer.periodic(Duration(seconds: 1), (timer) {
       var dateTime = DateTime.now();
       setState(() {
         time = '${dateTime.hour}:${dateTime.minute}:${dateTime.second}';
       });
     });
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black54,
       body: Center(
