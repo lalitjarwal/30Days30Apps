@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -50,67 +51,77 @@ class _HomeState extends State<Home> {
       floatingActionButton:
           FloatingActionButton.extended(onPressed: clear, label: Text('Clear')),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      body: Column(
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          Expanded(
-            flex: 10,
-            child: GestureDetector(
-              onPanUpdate: (DragUpdateDetails details) {
-                setState(() {
-                  RenderBox object = context.findRenderObject();
-                  Offset _localPosition =
-                      object.globalToLocal(details.globalPosition);
-                  _points = new List.from(_points)..add(_localPosition);
-                });
-              },
-              onPanEnd: (DragEndDetails details) => _points.add(null),
-              child: CustomPaint(
-                size: MediaQuery.of(context).size,
-                painter: SignaturePainter(
-                    points: _points,
-                    strokeColor: strokeColor,
-                    strokeWidth: strokeWidth),
+          Column(
+            children: [
+              Expanded(
+                flex: 10,
+                child: GestureDetector(
+                  onPanUpdate: (DragUpdateDetails details) {
+                    setState(() {
+                      RenderBox object = context.findRenderObject();
+                      Offset _localPosition =
+                          object.globalToLocal(details.globalPosition);
+                      _points = new List.from(_points)..add(_localPosition);
+                    });
+                  },
+                  onPanEnd: (DragEndDetails details) => _points.add(null),
+                  child: CustomPaint(
+                    size: MediaQuery.of(context).size,
+                    painter: SignaturePainter(
+                        points: _points,
+                        strokeColor: strokeColor,
+                        strokeWidth: strokeWidth),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      for (int i = 0; i < 10; i++)
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              strokeColor = colors[i];
+                            });
+                          },
+                          child: Container(
+                            width: 25,
+                            height: 25,
+                            color: colors[i],
+                          ),
+                        )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+          Positioned(
+            right: 10.0,
+            bottom: 100.0,
+            child: RotatedBox(
+              quarterTurns: -1,
+              child: SizedBox(
+                width: 400.0,
+                child: Slider(
+                    label: '$strokeWidth',
+                    divisions: 7,
+                    min: 1.0,
+                    max: 8.0,
+                    value: strokeWidth,
+                    onChanged: (value) {
+                      strokeWidth = value;
+                      setState(() {});
+                    }),
               ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Slider(
-                  label: '$strokeWidth',
-                  divisions: 7,
-                  min: 1.0,
-                  max: 8.0,
-                  value: strokeWidth,
-                  onChanged: (value) {
-                    strokeWidth = value;
-                    setState(() {});
-                  }),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  for (int i = 0; i < 10; i++)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          strokeColor = colors[i];
-                        });
-                      },
-                      child: Container(
-                        width: 25,
-                        height: 25,
-                        color: colors[i],
-                      ),
-                    )
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -136,8 +147,9 @@ class SignaturePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (int i = 0; i < points.length - 1; i++) {
-      if (points[i] != null && points[i + 1] != null)
+      if (points[i] != null && points[i + 1] != null) {
         canvas.drawLine(points[i], points[i + 1], _linePaint);
+      }
     }
   }
 
