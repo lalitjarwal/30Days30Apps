@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "254632286255",
+    "project_id": "fire-insta-5fd9a",
+    "storage_bucket": "fire-insta-5fd9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254632286255:android:ec51d20505c2c979434eda",
+        "android_client_info": {
+          "package_name": "com.example.fire_google_signin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254632286255-evf8do4jp3jr2m517b9ofuthisvhh74g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fire_google_signin",
+            "certificate_hash": "5af917530db6ff21fc0c2db4c75b554a68423617"
+          }
+        },
+        {
+          "client_id": "254632286255-nel52fn42t6a4preo3iv98m194qmck2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq30AZkav0ieMMn3522j5PjSnzRco6SUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "254632286255-nel52fn42t6a4preo3iv98m194qmck2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
