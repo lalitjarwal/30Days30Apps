@@ -22,9 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Login extends StatelessWidget {
-  const Login({
-    Key key,
-  }) : super(key: key);
+
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
     final LoginResult result = await FacebookAuth.instance.login();
