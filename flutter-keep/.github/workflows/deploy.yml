@@ -1,0 +1,39 @@
+name: deploy
+
+on:
+  push:
+    branches: master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '8.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: dev
+    - name: Install js tools & depencies
+      run: |
+        sudo npm i -g firebase-tools
+        sudo chown -R $USER:$GROUP ~/.npm
+        sudo chown -R $USER:$GROUP ~/.config
+        cd functions && yarn
+    - name: Build flutter web
+      run: |
+        flutter config --enable-web
+        flutter pub get
+        flutter build web
+    - name: Deploy to Firebase
+      run: |
+        cp -r build/web ./public
+        firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
+    - name: Notification
+      if: cancelled() == false
+      uses: xinthink/action-telegram@v1.1
+      with:
+        botToken: ${{ secrets.TelegramBotToken }}
+        chatId: ${{ secrets.TelegramTarget }}
+        jobStatus: ${{ job.status }}
